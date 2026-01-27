@@ -122,6 +122,11 @@ opt_meta(ymax, 'MAX').
 known_system(_Options, System) :-
     system(System),
     !.
+known_system(Options, System) :-
+    option(cached(true), Options),
+    csv_file(System, CSVOut, Options),
+    exists_file(CSVOut),
+    !.
 known_system(_, System) :-
     existence_error(system, System).
 
@@ -445,6 +450,11 @@ version(Version) -->
 		 *******************************/
 
 prepare_system(Options, System) :-
+    option(cached(true), Options),
+    csv_file(System, CSVOut, Options),
+    exists_file(CSVOut),
+    !.
+prepare_system(Options, System) :-
     directory_file_path('port/programs', System, Dir),
     directory_file_path(Dir, 'include_all.pl', InclFile),
     exists_file(InclFile),
@@ -510,7 +520,9 @@ program(Data, P) :-
     P \== program.
 
 system_label(System, Label) :-
-    system_property(System, vlabel(Label)).
+    system_property(System, vlabel(Label)),
+    !.
+system_label(System, System).
 
 make_row(Systems, Pairs, Program, Row) :-
     maplist(system_time(Program, Pairs), Systems, SysTimes),
