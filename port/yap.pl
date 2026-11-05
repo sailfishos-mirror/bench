@@ -42,3 +42,7 @@ get_performance_stats(GC, T):-
 
 no_singletons :-
     set_prolog_flag(single_var_warnings, off).
+
+% YAP 6.5 runs :- mode(Spec) as a goal
+:- multifile(user:mode/1).
+user:mode(_).

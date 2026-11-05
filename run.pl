@@ -171,7 +171,7 @@ compile_program(P) :-
     load_files(P:AbsFile, [if(changed)]).
 
 has_program(P) :-
-    current_predicate(P:top/0).
+    once(current_predicate(P:top/0)).
 
 :- endif.
 :- endif.
